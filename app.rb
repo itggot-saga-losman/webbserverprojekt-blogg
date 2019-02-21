@@ -18,14 +18,19 @@ post('/logged') do
     db = SQLite3::Database.new("db/Users.db")
     db.results_as_hash = true
 
+
+    #DETTA FUNKAR ITNE
     result = db.execute("SELECT * FROM users WHERE Username = (?)", params['Username'])
+
+    id = result[0]
+    userId = id[2]
 
     if result == [] 
         redirect('/logged')
     end
 
     if params["Username"] == result[0]["Username"] && params["Password"] == result[0]["Password"]
-        redirect('/loggedin/profile')
+        redirect("/loggedin/#{userId}/profile")
         
     else
         redirect('/logged')
@@ -34,6 +39,18 @@ post('/logged') do
 
 end
 
+get('/loggedin/:userId/profile') do
+
+    session[:username] = params["username"]
+    session[:password] = params["password"]
+
+    slim(:profile)
+end
+
+post('/logout') do
+    session.destroy
+    redirect('/')
+end
 get('/createUser') do
 
     slim(:createUser)
@@ -56,16 +73,6 @@ post('/created') do
     
 end
 
-get('/loggedin/profile') do
-    session[:username] = params["username"]
-    session[:password] = params["password"]
 
-    slim(:profile)
-end
-
-post('/logout') do
-    session.destroy
-    redirect('/')
-end
 
 
