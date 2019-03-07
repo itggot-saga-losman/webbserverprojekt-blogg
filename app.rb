@@ -1,13 +1,12 @@
 require 'sinatra'
 require 'slim'
 require 'sqlite3'
-
+enable :sessions
 
 get('/') do
 
     slim(:index)
 end
-
 
 get('/login') do
 
@@ -36,7 +35,6 @@ post('/logged') do
         redirect('/logged')
     end
     
-
 end
 
 get('/loggedin/:userId/profile') do
@@ -51,6 +49,7 @@ post('/logout') do
     session.destroy
     redirect('/')
 end
+
 get('/createUser') do
 
     slim(:createUser)
@@ -70,7 +69,6 @@ post('/created') do
             redirect('/createUser')
         end
     end
-    
 end
 
 
