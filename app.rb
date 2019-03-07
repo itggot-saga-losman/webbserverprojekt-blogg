@@ -10,26 +10,26 @@ end
 
 get('/login') do
 
+
     slim(:login)
 end
 
+# FIXA SÅ ATT MAN INTE KAN GÖRA NÅGOT DÅ ANVÄNDARNAMNET INTE FINNS
 post('/logged') do 
     db = SQLite3::Database.new("db/Users.db")
     db.results_as_hash = true
 
-
-    #DETTA FUNKAR ITNE
     result = db.execute("SELECT * FROM users WHERE Username = (?)", params['Username'])
 
     id = result[0]
-    userId = id[2]
+    session[:userId] = id[2]
 
-    if result == [] 
+    if result == nil 
         redirect('/logged')
     end
 
     if params["Username"] == result[0]["Username"] && params["Password"] == result[0]["Password"]
-        redirect("/loggedin/#{userId}/profile")
+        redirect("/loggedin/profile/#{:userId}")
         
     else
         redirect('/logged')
@@ -37,12 +37,19 @@ post('/logged') do
     
 end
 
-get('/loggedin/:userId/profile') do
+get('/loggedin/profile/:userId') do
 
     session[:username] = params["username"]
     session[:password] = params["password"]
+    name = params["username"]
 
-    slim(:profile)
+    db = SQLite3::Database.new("db/Users.db")
+    db.results_as_hash = true
+
+    posts_classic = db.execute("SELECT * FROM posts WHERE UserId = (?)", session[:userId])
+    posts = posts_classic.reverse
+
+    slim(:profile, locals:{posts:posts})
 end
 
 post('/logout') do
@@ -71,6 +78,13 @@ post('/created') do
     end
 end
 
+post('/newPost') do
+    db = SQLite3::Database.new("db/Users.db")
+    db.results_as_hash = true
+
+    db.execute("INSERT INTO posts (Title, Text, Img, UserId ) VALUES ((?), (?), (?), (?))", params['Title'], params['Text'], params['Img'], session[:userId])
+    redirect('/loggedin/profile/:userId')
+end
 
 
 

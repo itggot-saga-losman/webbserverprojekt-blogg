@@ -1,7 +1,18 @@
 p PROFILE
 
-/ form action="/logout" method="POST"
-/     input type="submit" value="Log out"
-
 form action="/logout" method="POST"
     input type="submit" value="Log out"
+
+
+form action="/newPost" method="post"
+
+    input type="text" name="Title" placeholder="Title" 
+    input type="text" name="Text" placeholder="Text" 
+    input type="text" name="Img" placeholder="Img" 
+    input type="submit" value="Submit"  
+
+p = posts
+
+- posts.each do |post|
+    H2 = post["Title"]
+    p = post["Text"]
