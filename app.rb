@@ -10,7 +10,6 @@ configure do
 end
 
 get('/') do
-
     slim(:index)
 end
 
@@ -72,8 +71,7 @@ post('/created') do
     db = settings.db
     db.results_as_hash = true
 
-    # Fixa så att man kollar så att email är unikt
-    Users = db.execute("SELECT * FROM users WHERE Username = ?", params['Username'])
+    Users = db.execute("SELECT * FROM users WHERE Username = (?) OR Email = (?)", params['Username'], params['Email'])
 
     if params['Username'] && params['Password'] && params['Email']
         if Users == []
