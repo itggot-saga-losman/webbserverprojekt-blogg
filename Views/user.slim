@@ -1,10 +1,4 @@
-H1 Your profile
-
-img src="/Img/#{session["img"]}"
-
-form action="/logout" method="POST"
-    input type="submit" value="Log out"
-
+H1 = "#{session[:username]}´s posts"
 
 h2 ="Search for user:"
 form action="/searchUsername" method="post"
@@ -12,16 +6,6 @@ form action="/searchUsername" method="post"
     input type="text" name="Username" placeholder="Username" 
     input type="submit" value="Search"  
 
-
-h2 = "New post:"
-form action="/newPost" method="post"
-
-    input type="text" name="Title" placeholder="Title" 
-    input type="text" name="Text" placeholder="Text" 
-    input type="text" name="Img" placeholder="Img" 
-    input type="submit" value="Submit"  
-
-h2 = "Posts:"
 - posts.each do |post|
     - if post["Id"] == session["edit"].to_i
         H3 = post["Title"] 
@@ -44,5 +28,5 @@ h2 = "Posts:"
 
             form action="/deletePost/#{post["Id"]}" method="POST"
                 input type="submit" value="delete"
-    
 
+a href="/loggedin/profile/:userId" Back to profile
