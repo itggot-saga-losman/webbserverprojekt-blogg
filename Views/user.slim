@@ -7,26 +7,8 @@ form action="/searchUsername" method="post"
     input type="submit" value="Search"  
 
 - posts.each do |post|
-    - if post["Id"] == session["edit"].to_i
-        H3 = post["Title"] 
-        form action="/editPost/#{post["Id"]}" method="POST"
-            input type="text" name="Title" placeholder="Title" value=post["Title"] 
-            input type="text" name="Text" placeholder="Text" value=post["Text"] 
-            input type="text" name="Img" placeholder="Img" value=post["Img"] 
-            input type="submit" value="Submit"  
-
-        p = post["Text"]
-
-        form action="/deletePost/#{post["Id"]}" method="POST"
-            input type="submit" value="delete"
-
-    - else
-            H3 = post["Title"]
-            form action="/editPostForm/#{post["Id"]}" method="POST"
-                input type="submit" value="Edit"
-            p = post["Text"]
-
-            form action="/deletePost/#{post["Id"]}" method="POST"
-                input type="submit" value="delete"
+    H3 = post["Title"]
+        
+    p = post["Text"]
 
 a href="/loggedin/profile/:userId" Back to profile

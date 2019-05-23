@@ -2,7 +2,12 @@ H1 Create User
 
 form action="/created" method="post"
 
-    input type="text" name="Username" placeholder="UserName" 
-    input type="text" name="Password" placeholder="Password" 
-    input type="text" name="Email" placeholder="Email" 
+    input type="text" name="Username" placeholder="UserName" required=true 
+    input type="text" name="Password" placeholder="Password" required=true
+    input type="text" name="Password2" placeholder="Password"  required=true
     input type="submit" value="Update"  
+
+- if flash[:error]
+    =flash
+
+a href="/login" Login
