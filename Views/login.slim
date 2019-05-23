@@ -2,12 +2,12 @@ h1 Login
 
 form action="/logged" method="post"
 
-    input type="text" name="Username" placeholder="Username" value="Popp" required=true
-    input type="text" name="Password" placeholder="Password" value="Majs" required=true
+    input type="text" name="Username" placeholder="Username"  required=true
+    input type="text" name="Password" placeholder="Password" required=true
     input type="submit" value="Submit"  
 
-- if flash[:error]
-    =flash
+- if flash[:loginError]
+    =flash[:loginError]
 
 a href="/createUser" Create User
 

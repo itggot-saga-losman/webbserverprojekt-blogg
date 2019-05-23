@@ -16,8 +16,8 @@ form action="/searchUsername" method="post"
 h2 = "New post:"
 form action="/newPost" method="post"
 
-    input type="text" name="Title" placeholder="Title" 
-    input type="text" name="Text" placeholder="Text" 
+    input type="text" name="Title" placeholder="Title" required=true
+    input type="text" name="Text" placeholder="Text" required=true
     input type="submit" value="Submit"  
 
 h2 = "Posts:"
@@ -25,8 +25,8 @@ h2 = "Posts:"
     - if post["Id"] == session["edit"].to_i
         H3 = post["Title"] 
         form action="/editPost/#{post["Id"]}" method="POST"
-            input type="text" name="Title" placeholder="Title" value=post["Title"] 
-            input type="text" name="Text" placeholder="Text" value=post["Text"] 
+            input type="text" name="Title" placeholder="Title" value=post["Title"] required=true
+            input type="text" name="Text" placeholder="Text" value=post["Text"] required=true
             input type="submit" value="Submit"  
 
         p = post["Text"]
@@ -35,19 +35,15 @@ h2 = "Posts:"
             input type="submit" value="delete"
 
     - else
-        - if session[:showuser] = true
-            H3 = post["Title"]
-            form action="/editPostForm/#{post["Id"]}" method="POST"
-                input type="submit" value="Edit"
-            p = post["Text"]
 
-            form action="/deletePost/#{post["Id"]}" method="POST"
-                input type="submit" value="delete"
-        - else
-            H3 = post["Title"]
-                
-            p = post["Text"]
-            / FIXA ^
+        H3 = post["Title"]
+        form action="/editPostForm/#{post["Id"]}" method="POST"
+            input type="submit" value="Edit"
+        p = post["Text"]
+
+        form action="/deletePost/#{post["Id"]}" method="POST"
+            input type="submit" value="delete"
+
 
                 
 

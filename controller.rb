@@ -9,44 +9,32 @@ require_relative 'model.rb'
 include MyModule
 enable :sessions
 
-
-#  Yarn dokumentation, validering, uppdelning i moduler och error page.
 configure do 
 
     set :db, SQLite3::Database.new("db/Users.db")
 end
 
-# Display Landing Page
-#
 get('/') do
     slim(:index)
 end
 
-# Display Login Page
-#
 get('/login') do
     
     slim(:login)
 end
 
-# Handles a login request and redirects to '/loggedin/profile/#{:userId}'
-#
-# @param [String] username, the username
-# @param [String] password, the password
-#
-# @see Model#login_check
 post('/logged') do 
     result = login(params)
 
     response = createUser(params)
-   
-
+    
     if result == []
-        session[:error] = session[:message]
+         
+        flash[:loginError] = "Wrong username or password"
         redirect('/login')
     end
 
-    if params["Username"] == result[0]["Username"] && result[0]["Password"] == params['Password']
+    if params["Username"] == result[0]["Username"] && BCrypt::Password.new(result[0]["Password"]) == params['Password']
         id = result[0]
         session[:userId] = id[2]
         redirect("/loggedin/profile/#{:userId}")
